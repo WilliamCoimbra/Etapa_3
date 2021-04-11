@@ -1,0 +1,455 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define tam 10 /*define a quantidade de OS's e consequentemente a quantidade de cada variavel*/
+
+
+void telainicial()
+{
+    printf("\n\n \t >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    printf("\n\n \t\t\t\t\t  SISTEMA DE ORDENS DE SERVICO "); /*apresenta o sistema*/
+    printf("\n\n \t <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    printf("\n\n");
+    system("pause");
+}
+
+void listacodigosservico()
+{
+    printf("\n\n \t -------------------------------------------------");
+    printf("\n\n \t OPCOES  DE CODIGO DE SERVICO DISPONIVEIS: ");
+    printf("\n\n \t 1   - LIGACAO NOVA COM INSTALACAO DE MEDIDOR");
+    printf("\n\n \t 5   - SUSPENS.FORNEC.FALTA-PGT.SEM RET.MEDIDOR");
+    printf("\n\n \t 12  - INSTALACAO DE MEDIDOR");
+    printf("\n\n \t 13  - RETIRADA DE MEDIDOR");
+    printf("\n\n \t 18  - PADRONIZACAO DE ENTRADA DE SERVICO");
+    printf("\n\n \t 28  - VISTORIAR PADRAO");
+    printf("\n\n \t 59  - PREPARAR CROQUIS AFASTAMENTO DE REDE");
+    printf("\n\n \t 148 - AUMENTO DE CARGA");
+    printf("\n\n \t 149 - REDUCAO DE CARGA");
+    printf("\n\n \t 741 - INSTALACAO DE MEDIDOR GR B GD");
+    printf("\n\n \t -------------------------------------------------");
+}
+
+void listaveiculos()
+{
+    printf("\n\n \t ----------------------------------------");
+    printf("\n\n \t OPCOES DE VEICULOS DISPONIVEIS: ");
+    printf("\n\n \t 1100");
+    printf("\n\n \t 1140");
+    printf("\n\n \t 2230");
+    printf("\n\n \t 3145");
+    printf("\n\n \t 4444");
+    printf("\n\n \t 4778");
+    printf("\n\n \t 5160");
+    printf("\n\n \t 6422");
+    printf("\n\n \t 8900");
+    printf("\n\n \t 9132");
+    printf("\n\n \t ----------------------------------------");
+}
+
+void listamatriculas()
+{
+    printf("\n\n \t ----------------------------------------");
+    printf("\n\n \t OPCOES DE MATRICULAS DISPONIVEIS: ");
+    printf("\n\n \t 37092");
+    printf("\n\n \t 30192");
+    printf("\n\n \t 30465");
+    printf("\n\n \t 36789");
+    printf("\n\n \t 35015");
+    printf("\n\n \t 36487");
+    printf("\n\n \t 34850");
+    printf("\n\n \t 36065");
+    printf("\n\n \t 36519");
+    printf("\n\n \t 31184");
+    printf("\n\n \t ----------------------------------------");
+}
+
+
+void menu()
+{
+    printf("\n\n \t >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    printf("\n\n \t\t\t\t\t\t\t  MENU ");
+    printf("\n\n \t\t\t\t\t DIGITE O NUMERO CORRESPONDENTE A ACAO ");/* menu de opções*/
+    printf("\n\n \t <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+    printf("\n\n \t  0 - SAIR ");/* sair do sistema*/
+    printf("\n\n \t  1 - PESQUISAR ORDEM DE SERVICO ");/*consultar informações da OS*/
+    printf("\n\n \t  2 - EDITAR ORDEM DE SERVICO \n");/*Editar informações da OS*/
+    printf("\n\n \t  OPCAO: ");
+}
+
+
+typedef struct
+{
+       char NomeOs[100];
+       char Status[100];
+       char NomeCliente[100];
+       char Bairro[100];
+       char Observacao[100]; /*define os vetores onde serão armazenados textos*/
+       int NumeroOS;
+       int CodigoServico;
+       int UnidadeConsumidora;
+       int Medidor;
+       int Leitura;
+       int Veiculo;
+       int Matricula; /*define as variaveis onde serão armazenados números inteiros*/
+
+} Cadastro;
+
+
+int main()
+{
+    system("color 70"); /*define a cor do sistema*/
+
+    Cadastro cad[tam];
+
+    int Cliente,NovoCadastro,Busca,NovaBusca,Seguir,Opcao,Sair,element;
+
+    Sair=1;
+
+
+
+    for(Cliente=0;Cliente<tam;Cliente++) /* permite solicitar as informações das OS's até a quantidade definida de OS's(10)*/
+    {
+        telainicial();
+
+        printf("\n\n \t CADASTRAR NOVA ORDEM DE SERVICO: ");
+
+        fflush(stdin);
+        printf("\n\n \t INFORME O NOME DA OS: ");/*solicita o nome da OS e assim por diante...*/
+        gets(cad[Cliente].NomeOs);
+        fflush(stdin);
+
+        printf("\n\n \t INFORME O NUMERO DA OS: ");
+        scanf("%d",&cad[Cliente].NumeroOS);
+
+        fflush(stdin);
+        printf("\n\n \t INFORME O STATUS DA OS: ");
+        gets(cad[Cliente].Status);
+        fflush(stdin);
+
+        do /*impede que um código de serviço inexistente seja cadastrado e solicita novamente a informação*/
+        {
+
+            listacodigosservico();
+            printf("\n\n \t INFORME O CODIGO DE SERVICO: ");
+
+            scanf("%d",&cad[Cliente].CodigoServico);
+
+            if((cad[Cliente].CodigoServico!=1)&&(cad[Cliente].CodigoServico!=5)&&(cad[Cliente].CodigoServico!=12)&&(cad[Cliente].CodigoServico!=13)&&(cad[Cliente].CodigoServico!=18)&&(cad[Cliente].CodigoServico!=28)&&(cad[Cliente].CodigoServico!=59)&&(cad[Cliente].CodigoServico!=148)&&(cad[Cliente].CodigoServico!=149)&&(cad[Cliente].CodigoServico!=741)) /*caso o codigo de serviço informado for diferente fará a mensagem de erro ser exibida*/
+            {
+                printf("\n\n\t\t\t\t    >>>>CODIGO DE SERVICO INVALIDO!<<<<");
+                printf("\n\n\t\t\t\t >>>>INFORME CODIGO DE SERVICO VALIDO!<<<<\n\n");
+                system("pause");
+            }
+        }while((cad[Cliente].CodigoServico!=1)&&(cad[Cliente].CodigoServico!=5)&&(cad[Cliente].CodigoServico!=12)&&(cad[Cliente].CodigoServico!=13)&&(cad[Cliente].CodigoServico!=18)&&(cad[Cliente].CodigoServico!=28)&&(cad[Cliente].CodigoServico!=59)&&(cad[Cliente].CodigoServico!=148)&&(cad[Cliente].CodigoServico!=149)&&(cad[Cliente].CodigoServico!=741));/*responsavel por repetir a solicitação da informação*/
+
+        fflush(stdin);
+        printf("\n\n \t INFORME O NOME DO CLIENTE: ");
+        gets(cad[Cliente].NomeCliente);
+        fflush(stdin);
+
+        printf("\n\n \t INFORME A UNIDADE CONSUMIDORA: ");
+        scanf("%d",&cad[Cliente].UnidadeConsumidora);
+
+        printf("\n\n \t INFORME O MEDIDOR: ");
+        scanf("%d",&cad[Cliente].Medidor);
+
+        printf("\n\n \t INFORME A LEITURA: ");
+        scanf("%d",&cad[Cliente].Leitura);
+
+        fflush(stdin);
+        printf("\n\n \t INFORME O BAIRRO DO CLIENTE: ");
+        gets(cad[Cliente].Bairro);
+        fflush(stdin);
+
+        fflush(stdin);
+        printf("\n\n \t INFORME OBSERVACOES: ");
+        gets(cad[Cliente].Observacao);
+        fflush(stdin);
+
+        do /*impede que um número de veículo inexistente seja cadastrado e solicita novamente a informação*/
+        {
+
+            listaveiculos();
+            printf("\n\n \t INFORME O VEICULO: ");
+
+            scanf("%d",&cad[Cliente].Veiculo);
+
+            if ((cad[Cliente].Veiculo!=1100)&&(cad[Cliente].Veiculo!=1140)&&(cad[Cliente].Veiculo!=2230)&&(cad[Cliente].Veiculo!=3145)&&(cad[Cliente].Veiculo!=4444)&&(cad[Cliente].Veiculo!=4778)&&(cad[Cliente].Veiculo!=5160)&&(cad[Cliente].Veiculo!=6422)&&(cad[Cliente].Veiculo!=8900)&&(cad[Cliente].Veiculo!=9132))/*caso o numero de veiculo informado for diferente fará a mensagem de erro ser exibida*/
+            {
+                printf("\n\n\t\t\t\t    >>>>NUMERO DE VEICULO INVALIDO!<<<<");
+                printf("\n\n\t\t\t\t >>>>INFORME NUMERO DE VEICULO VALIDO!<<<<\n\n");
+                system("pause");
+            }
+        } while ((cad[Cliente].Veiculo!=1100)&&(cad[Cliente].Veiculo!=1140)&&(cad[Cliente].Veiculo!=2230)&&(cad[Cliente].Veiculo!=3145)&&(cad[Cliente].Veiculo!=4444)&&(cad[Cliente].Veiculo!=4778)&&(cad[Cliente].Veiculo!=5160)&&(cad[Cliente].Veiculo!=6422)&&(cad[Cliente].Veiculo!=8900)&&(cad[Cliente].Veiculo!=9132));/*responsavel por repetir a solicitação da informação*/
+
+        do/*impede que um número de matrícula inexistente seja cadastrado e solicita novamente a informação*/
+        {
+
+            listamatriculas();
+            printf("\n\n \t INFORME A MATRICULA: ");
+
+            scanf("%d",&cad[Cliente].Matricula);
+
+            if((cad[Cliente].Matricula!=37092)&&(cad[Cliente].Matricula!=30192)&&(cad[Cliente].Matricula!=30465)&&(cad[Cliente].Matricula!=36789)&&(cad[Cliente].Matricula!=35015)&&(cad[Cliente].Matricula!=36487)&&(cad[Cliente].Matricula!=34850)&&(cad[Cliente].Matricula!=36065)&&(cad[Cliente].Matricula!=35619)&&(cad[Cliente].Matricula!=31184))/*caso o numero de matrícula informado for diferente fará a mensagem de erro ser exibida*/
+            {
+                printf("\n\n\t\t\t\t    >>>>MATRICULA INVALIDA!<<<<");
+                printf("\n\n\t\t\t\t >>>>INFORME MATRICULA VALIDA!<<<<\n\n");
+                system("pause");
+            }
+        }while((cad[Cliente].Matricula!=37092)&&(cad[Cliente].Matricula!=30192)&&(cad[Cliente].Matricula!=30465)&&(cad[Cliente].Matricula!=36789)&&(cad[Cliente].Matricula!=35015)&&(cad[Cliente].Matricula!=36487)&&(cad[Cliente].Matricula!=34850)&&(cad[Cliente].Matricula!=36065)&&(cad[Cliente].Matricula!=35619)&&(cad[Cliente].Matricula!=31184));/*responsavel por repetir a solicitação da informação*/
+
+        printf("\n\n \t DESEJA REALIZAR NOVO CADASTRO? (SIM-DIGITE 1 / NAO-DIGITE 0 ): ");/*possibilita o usuario cadastrar menos numeros de OS's caso necessario*/
+        scanf("%d",&NovoCadastro);
+        printf("%d",NovoCadastro);
+
+        if(NovoCadastro==0)/*caso o usuario desejar finalizar o cadastramento cliente receberá o valor de tam e nao serão solicitadas novas informações*/
+           Cliente=Cliente+10;
+
+           system("cls");
+
+    }
+
+    do
+    {
+
+        menu();
+        scanf("%d",&Opcao);
+
+        switch (Opcao) /*define o destino do codigo em relação a opçãos ecolhida*/
+        {
+            case 0:/*irá sair do sistema*/
+            {
+                Sair=0;
+            }
+            break;
+            case 1:/*irá possibilitar a pesquisa das informações da OS*/
+            {
+                   printf("\n\n \t  DIGITE O NUMERO DA OS QUE DESEJA BUSCAR INFORMACOES DE CADASTRO: ");
+                    scanf("%d",&Busca);
+
+                    for(Cliente=0;Cliente<tam;Cliente++)/*fará a busca dentro dos vetores até encontrar a OS informada*/
+                    {
+                        cad[Cliente].NumeroOS;
+                        if (cad[Cliente].NumeroOS==Busca)
+                        {
+                            Busca=Cliente;/*quando encontrar a OS desejada, finaliza a busca*/
+                            Cliente=tam;
+                        }
+                    }
+                    printf("\n\n \t NOME DA OS: %s ",cad[Busca].NomeOs); /*exibe as informações da OS*/
+
+                    printf("\n\n \t NUMERO DA OS: %d ",cad[Busca].NumeroOS);
+
+                    printf("\n\n \t STATUS: %s ",cad[Busca].Status);
+
+                    printf("\n\n \t CODIGO DE SERVICO: %d ",cad[Busca].CodigoServico);
+
+                    printf("\n\n \t NOME DO CLIENTE: %s ",cad[Busca].NomeCliente);
+
+                    printf("\n\n \t UC: %d ",cad[Busca].UnidadeConsumidora);
+
+                    printf("\n\n \t MEDIDOR: %d ",cad[Busca].Medidor);
+
+                    printf("\n\n \t LEITURA: %d ",cad[Busca].Leitura);
+
+                    printf("\n\n \t BAIRRO: %s ",cad[Busca].Bairro);
+
+                    printf("\n\n \t OBSERVACAO: %s ",cad[Busca].Observacao);
+
+                    printf("\n\n \t VEICULO: %d ",cad[Busca].Veiculo);
+
+                    printf("\n\n \t MATRICULA: %d ",cad[Busca].Matricula);
+
+
+
+            break;
+            }
+
+            case 2: /*possibilita alterar alguma informação da OS*/
+            {
+                    printf("\n\n \t  DIGITE O NUMERO DA OS QUE DESEJA ALTERAR AS INFORMACOES DE CADASTRO: ");
+                    scanf("%d",&Busca);
+
+                    for(Cliente=0;Cliente<tam;Cliente++)
+                    {
+                        cad[Cliente].NumeroOS;
+                        if(cad[Cliente].NumeroOS==Busca)/*irá buscar dentro do vetor até encontrar a OS informada*/
+                        {
+                            Busca=Cliente;/*irá finalizar a busca quando encontrar a OS desejada*/
+                            Cliente=tam;
+                        }
+                    }
+
+                    printf("\n\n \t  INFORME O NUMERO DO ELEMENTO QUE DESEJA ALTERAR\n\n \t(1) - NOME DA OS\n\n \t(2) - NUMERO OS\n\n \t(3) - STATUS\n\n \t(4) - CODIGO SERVICO\n\n \t(5) - NOME CLIENTE\n\n \t(6) - UNIDADE CONSUMIDORA\n\n \t(7) - MEDIDOR\n\n \t(8) - LEITURA\n\n \t(9) - BAIRRO\n\n \t(10) - OBSERVACAO\n\n \t(11) - VEICULO\n\n \t(12) - MATRICULA\n\n");
+                    printf("\n\n \t  OPCAO: ");
+                    scanf("%d",&element);
+
+                    switch(element)/*irá destinar qual OS será alterada*/
+                    {
+
+                        case 1:
+                        {
+                            fflush(stdin);
+                            printf("\n\n \t INFORME O NOVO NOME DA OS: ");/*caso 1 irá alterar o nome da OS e assim por diante...*/
+                            gets(cad[Busca].NomeOs);
+                            fflush(stdin);
+                        }
+                        break;
+
+                        case 2:
+                        {
+                            printf("\n\n \t INFORME O NOVO NUMERO DA OS: ");
+                            scanf("%d",&cad[Busca].NumeroOS);
+                        }
+                        break;
+
+                        case 3:
+                        {
+                            fflush(stdin);
+                            printf("\n\n \t INFORME O NOVO STATUS DA OS: ");
+                            gets(cad[Busca].Status);
+                            fflush(stdin);
+                        }
+                        break;
+
+                        case 4:
+                        {
+                            do /*impede que um código de serviço inexistente seja inserido*/
+                            {
+                                listacodigosservico();
+                                printf("\n\n \t INFORME O CODIGO DE SERVICO: ");
+                                scanf("%d",&cad[Busca].CodigoServico);
+
+                                if((cad[Busca].CodigoServico!=1)&&(cad[Busca].CodigoServico!=5)&&(cad[Busca].CodigoServico!=12)&&(cad[Busca].CodigoServico!=13)&&(cad[Busca].CodigoServico!=18)&&(cad[Busca].CodigoServico!=28)&&(cad[Busca].CodigoServico!=59)&&(cad[Busca].CodigoServico!=148)&&(cad[Busca].CodigoServico!=149)&&(cad[Busca].CodigoServico!=741))
+                                {
+                                    printf("\n\n\t\t\t\t    >>>>CODIGO DE SERVICO INVALIDO!<<<<");
+                                    printf("\n\n\t\t\t\t >>>>INFORME CODIGO DE SERVICO VALIDO!<<<<\n\n");
+                                    system("pause");
+                                }
+                            }while((cad[Busca].CodigoServico!=1)&&(cad[Busca].CodigoServico!=5)&&(cad[Busca].CodigoServico!=12)&&(cad[Busca].CodigoServico!=13)&&(cad[Busca].CodigoServico!=18)&&(cad[Busca].CodigoServico!=28)&&(cad[Busca].CodigoServico!=59)&&(cad[Busca].CodigoServico!=148)&&(cad[Busca].CodigoServico!=149)&&(cad[Busca].CodigoServico!=741));
+                        }
+                        break;
+
+                        case 5:
+                        {
+                            fflush(stdin);
+                            printf("\n\n \t INFORME O NOVO NOME DO CLIENTE: ");
+                            gets(cad[Busca].NomeCliente);
+                            fflush(stdin);
+                        }
+                        break;
+
+                        case 6:
+                        {
+                            printf("\n\n \t INFORME A NOVA UNIDADE CONSUMIDORA: ");
+                            scanf("%d",&cad[Busca].UnidadeConsumidora);
+                        }
+                        break;
+
+                        case 7:
+                        {
+                            printf("\n\n \t INFORME O NOVO MEDIDOR: ");
+                            scanf("%d",&cad[Busca].Medidor);
+                        }
+                        break;
+
+                        case 8:
+                        {
+                            printf("\n\n \t INFORME A NOVA LEITURA: ");
+                            scanf("%d",&cad[Busca].Leitura);
+                        }
+                        break;
+
+                        case 9:
+                        {
+                            fflush(stdin);
+                            printf("\n\n \t INFORME O NOVO BAIRRO DO CLIENTE: ");
+                            gets(cad[Busca].Bairro);
+                            fflush(stdin);
+                        }
+                        break;
+
+                        case 10:
+                        {
+                            fflush(stdin);
+                            printf("\n\n \t INFORME AS NOVAS OBSERVACOES: ");
+                            gets(cad[Busca].Observacao);
+                            fflush(stdin);
+                        }
+                        break;
+
+                        case 11:
+                        {
+                            do /*impede que um numero de veiculo inexistente seja inserido*/
+                            {
+                                listaveiculos();
+                                printf("\n\n \t INFORME O VEICULO: ");
+
+                                scanf("%d",&cad[Busca].Veiculo);
+
+                                if ((cad[Busca].Veiculo!=1100)&&(cad[Busca].Veiculo!=1140)&&(cad[Busca].Veiculo!=2230)&&(cad[Busca].Veiculo!=3145)&&(cad[Busca].Veiculo!=4444)&&(cad[Busca].Veiculo!=4778)&&(cad[Busca].Veiculo!=5160)&&(cad[Busca].Veiculo!=6422)&&(cad[Busca].Veiculo!=8900)&&(cad[Busca].Veiculo!=9132))
+                                {
+                                    printf("\n\n\t\t\t\t    >>>>NUMERO DE VEICULO INVALIDO!<<<<");
+                                    printf("\n\n\t\t\t\t >>>>INFORME NUMERO DE VEICULO VALIDO!<<<<\n\n");
+                                    system("pause");
+                                }
+                            } while ((cad[Busca].Veiculo!=1100)&&(cad[Busca].Veiculo!=1140)&&(cad[Busca].Veiculo!=2230)&&(cad[Busca].Veiculo!=3145)&&(cad[Busca].Veiculo!=4444)&&(cad[Busca].Veiculo!=4778)&&(cad[Busca].Veiculo!=5160)&&(cad[Busca].Veiculo!=6422)&&(cad[Busca].Veiculo!=8900)&&(cad[Busca].Veiculo!=9132));
+                        }
+                        break;
+
+                        case 12:
+                        {
+                            do /*impede que um numero de matricula inexistente seja inserido*/
+                            {
+                                listamatriculas();
+                                printf("\n\n \t INFORME A MATRICULA: ");
+                                scanf("%d",&cad[Busca].Matricula);
+
+                                if((cad[Busca].Matricula!=37092)&&(cad[Busca].Matricula!=30192)&&(cad[Busca].Matricula!=30465)&&(cad[Busca].Matricula!=36789)&&(cad[Busca].Matricula!=35015)&&(cad[Busca].Matricula!=36487)&&(cad[Busca].Matricula!=34850)&&(cad[Busca].Matricula!=36065)&&(cad[Busca].Matricula!=35619)&&(cad[Busca].Matricula!=31184))
+                                {
+                                    printf("\n\n\t\t\t\t    >>>>MATRICULA INVALIDA!<<<<");
+                                    printf("\n\n\t\t\t\t >>>>INFORME MATRICULA VALIDA!<<<<\n\n");
+                                    system("pause");
+                                }
+                            }while((cad[Busca].Matricula!=37092)&&(cad[Busca].Matricula!=30192)&&(cad[Busca].Matricula!=30465)&&(cad[Busca].Matricula!=36789)&&(cad[Busca].Matricula!=35015)&&(cad[Busca].Matricula!=36487)&&(cad[Busca].Matricula!=34850)&&(cad[Busca].Matricula!=36065)&&(cad[Busca].Matricula!=35619)&&(cad[Busca].Matricula!=31184));
+                        }
+                        break;
+
+                    default: /*caso a opção escolhida não existir o sistema informará o usuário*/
+                    {
+                        printf("\n\n\t\t\t\t    >>>>OPCAO INVALIDA!<<<<");
+                        printf("\n\n\t\t\t\t >>>>INFORME OPCAO VALIDA!<<<<\n\n");
+                        system("pause");
+                    }
+                    break;
+                }
+            }
+            break;
+
+            default: /*caso a opção escolhida não existir o sistema informará o usuário*/
+            {
+                printf("\n\n\t\t\t\t    >>>>OPCAO INVALIDA!<<<<");
+                printf("\n\n\t\t\t\t >>>>INFORME OPCAO VALIDA!<<<<\n\n");
+            }
+        }
+        do /*permite que o usurário retorne ao menu ou saia do sistema*/
+        {
+            printf("\n\n \t DIGITE 1 PARA VOLTAR PARA O MENU OU 0 PARA SAIR: ");
+            scanf("%d",&Sair);
+            system("cls");
+            if ((Sair!=1 && Sair!=0))
+            {
+                printf("\n\n \t OPCAO INVALIDA");
+                printf("\n\n \t INFORME UMA OPCAO INVALIDA \n");
+                system("pause");
+            }
+
+        } while ((Sair!=1 && Sair!=0)); /*permite apenas que o usuário retorne ao menu ou saia do sistema*/
+
+    } while (Sair!=0); /*permite ao usuário sair do sistema*/
+
+return 0;
+
+}
