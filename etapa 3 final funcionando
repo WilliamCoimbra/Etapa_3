@@ -103,7 +103,7 @@ int main()
 
     Cadastro cad[tam];
 
-    int Cliente,NovoCadastro,Busca,NovaBusca,Seguir,Opcao,Sair,element;
+    int Cliente,NovoCadastro,Busca,Opcao,Sair,element;
 
     Sair=1;
 
